@@ -6,7 +6,6 @@
     <title>KopiinAja - Kopi Botolan Mahasiswa</title>
     <style>
         :root {
-            /* Latar belakang cokelat muda estetik */
             --bg-color: #f4ece1; 
             --main-text: #3d342e;
             --accent-color: #704f37;
@@ -27,7 +26,7 @@
             background-color: var(--bg-color);
             color: var(--main-text);
             line-height: 1.6;
-            padding: 20px 20px 100px 20px; /* Jarak bawah agar tidak tertutup keranjang */
+            padding: 20px 20px 140px 20px; /* Jarak bawah ekstra agar tidak tertutup keranjang */
         }
 
         header {
@@ -146,30 +145,35 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
+            background-color: #fffaf5;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #f0e6da;
         }
 
         .price {
             font-size: 1.35rem;
             font-weight: 700;
             color: var(--accent-color);
-            background-color: #fcfaf7;
-            padding: 6px 14px;
-            border-radius: 8px;
         }
 
-        /* Tombol Aksi Tambah Pesanan */
+        /* Tombol + dan - untuk Menambah Jumlah Pesanan */
         .quantity-control {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            background-color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
         }
 
         .btn-qty {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             font-size: 1.2rem;
             font-weight: bold;
@@ -187,22 +191,29 @@
         .qty-number {
             font-size: 1.1rem;
             font-weight: bold;
-            min-width: 20px;
+            min-width: 24px;
             text-align: center;
+            color: #111;
         }
 
-        /* Sticky Bottom Cart Bar (Keranjang Belanja Mengambang) */
+        /* Kotak Sticky Keranjang Belanja Bawah */
         .cart-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background-color: #ffffff;
-            box-shadow: 0 -4px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 -8px 30px rgba(112, 79, 55, 0.2);
             padding: 20px;
-            display: none; /* Muncul otomatis jika ada pesanan */
-            z-index: 999;
-            border-top: 2px solid var(--border-color);
+            display: none; /* Muncul jika item > 0 */
+            z-index: 9999;
+            border-top: 3px solid var(--accent-color);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .cart-container {
@@ -221,47 +232,47 @@
         }
 
         .cart-count {
-            font-size: 0.95rem;
-            color: #666;
+            font-size: 1rem;
+            color: #555;
+            font-weight: 600;
         }
 
         .cart-total {
-            font-size: 1.6rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--accent-color);
         }
 
-        .gopay-alert {
+        .gopay-info {
             font-size: 0.85rem;
             color: #0066cc;
             font-weight: bold;
             background-color: #e6f2ff;
             padding: 4px 10px;
             border-radius: 6px;
-            margin-top: 2px;
+            margin-top: 4px;
             display: inline-block;
         }
 
         .btn-checkout {
             background-color: #25d366;
             color: white;
-            text-decoration: none;
-            padding: 14px 30px;
+            border: none;
+            padding: 16px 35px;
             border-radius: 30px;
             font-weight: bold;
             font-size: 1.1rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-            border: none;
-            cursor: pointer;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
             transition: background-color 0.2s, transform 0.2s;
         }
 
         .btn-checkout:hover {
             background-color: #1ebd58;
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         footer {
@@ -356,12 +367,12 @@
     <div class="cart-bar" id="cartBar">
         <div class="cart-container">
             <div class="cart-info">
-                <span class="cart-count" id="cartCount">Total item: 0 botol</span>
+                <span class="cart-count" id="cartCount">Total pesanan: 0 botol</span>
                 <div class="cart-total" id="cartTotal">Rp 0</div>
-                <div class="gopay-alert">Bayar GoPay: 0812 9254 1637</div>
+                <div class="gopay-info">Transfer GoPay: 0812 9254 1637</div>
             </div>
             <button class="btn-checkout" onclick="sendWhatsApp()">
-                📱 Pesan & Kirim Bukti via WA
+                📱 Kirim Pesanan & Bukti ke WA
             </button>
         </div>
     </div>
@@ -399,7 +410,7 @@
             const cartBar = document.getElementById("cartBar");
             if (totalItems > 0) {
                 cartBar.style.display = "block";
-                document.getElementById("cartCount").innerText = `Total item: ${totalItems} botol`;
+                document.getElementById("cartCount").innerText = `Total pesanan: ${totalItems} botol`;
                 document.getElementById("cartTotal").innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
             } else {
                 cartBar.style.display = "none";
@@ -423,7 +434,6 @@
             textOrder += `%0A*Metode Pembayaran:* Transfer GoPay (081292541637)`;
             textOrder += `%0A%0ABerikut saya lampirkan bukti transfernya ya min!`;
 
-            // Redirect otomatis ke nomor WA
             const waNumber = "6281292541637";
             window.open(`https://wa.me/${waNumber}?text=${textOrder}`, '_blank');
         }
