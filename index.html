@@ -6,11 +6,12 @@
     <title>KopiinAja - Kopi Botolan Mahasiswa</title>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --main-text: #2d2926;
-            --accent-color: #8c6239;
+            /* Latar belakang cokelat muda estetik */
+            --bg-color: #f4ece1; 
+            --main-text: #3d342e;
+            --accent-color: #704f37;
             --card-bg: #ffffff;
-            --border-color: #eae7e1;
+            --border-color: #e6d7c3;
             --badge-green: #e2f0d9;
             --text-green: #385723;
         }
@@ -26,13 +27,13 @@
             background-color: var(--bg-color);
             color: var(--main-text);
             line-height: 1.6;
-            padding: 20px;
+            padding: 20px 20px 100px 20px; /* Jarak bawah agar tidak tertutup keranjang */
         }
 
         header {
             text-align: center;
             padding: 50px 20px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             max-width: 1000px;
             margin: 0 auto 40px auto;
         }
@@ -45,7 +46,7 @@
         }
 
         header p {
-            color: #666;
+            color: #6e5d53;
             margin-top: 10px;
             font-size: 1.1rem;
         }
@@ -71,13 +72,13 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 15px rgba(112, 79, 55, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 12px 24px rgba(112, 79, 55, 0.15);
         }
 
         .card-image-container {
@@ -104,7 +105,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-color: #ffffff;
         }
 
         .status-badge {
@@ -115,7 +115,6 @@
             font-weight: 600;
             margin-bottom: 14px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .status-ready {
@@ -132,7 +131,7 @@
 
         .coffee-original {
             font-size: 0.85rem;
-            color: #888;
+            color: #777;
             margin-bottom: 12px;
         }
 
@@ -142,82 +141,127 @@
             margin-bottom: 20px;
         }
 
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
         .price {
             font-size: 1.35rem;
             font-weight: 700;
             color: var(--accent-color);
-            margin-top: auto;
-            background-color: #f7f5f0;
+            background-color: #fcfaf7;
             padding: 6px 14px;
             border-radius: 8px;
-            display: inline-block;
-            align-self: flex-start;
         }
 
-        .payment-section {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px 20px;
-            margin-top: 60px;
+        /* Tombol Aksi Tambah Pesanan */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-qty {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .btn-qty:hover {
+            background-color: #553c29;
+        }
+
+        .qty-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-width: 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
-        .payment-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            font-weight: 700;
-        }
-
-        .payment-section p {
-            font-size: 1rem;
-            color: #444;
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-        }
-
-        .gopay-box {
-            background-color: #f0f7ff;
-            border: 1px solid #b3d7ff;
-            border-radius: 12px;
+        /* Sticky Bottom Cart Bar (Keranjang Belanja Mengambang) */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            box-shadow: 0 -4px 25px rgba(0,0,0,0.15);
             padding: 20px;
-            display: inline-block;
-            margin: 10px 0 25px 0;
+            display: none; /* Muncul otomatis jika ada pesanan */
+            z-index: 999;
+            border-top: 2px solid var(--border-color);
         }
 
-        .gopay-number {
+        .cart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cart-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-count {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .cart-total {
             font-size: 1.6rem;
             font-weight: bold;
-            color: #0066cc;
-            letter-spacing: 1.5px;
+            color: var(--accent-color);
         }
 
-        .btn-wa {
+        .gopay-alert {
+            font-size: 0.85rem;
+            color: #0066cc;
+            font-weight: bold;
+            background-color: #e6f2ff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-top: 2px;
             display: inline-block;
+        }
+
+        .btn-checkout {
             background-color: #25d366;
             color: white;
             text-decoration: none;
-            padding: 14px 35px;
+            padding: 14px 30px;
             border-radius: 30px;
             font-weight: bold;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            border: none;
+            cursor: pointer;
             transition: background-color 0.2s, transform 0.2s;
         }
 
-        .btn-wa:hover {
+        .btn-checkout:hover {
             background-color: #1ebd58;
-            transform: scale(1.03);
-        }
-
-        .payment-instruction {
-            max-width: 600px;
-            margin: 20px auto 0 auto;
-            font-size: 0.9rem;
-            color: #777;
-            line-height: 1.5;
+            transform: scale(1.02);
         }
 
         footer {
@@ -225,7 +269,7 @@
             margin-top: 80px;
             padding: 30px 20px;
             font-size: 0.9rem;
-            color: #999;
+            color: #7a6e65;
             border-top: 1px solid var(--border-color);
         }
     </style>
@@ -242,7 +286,7 @@
             
             <div class="card">
                 <div class="card-image-container">
-                    <img class="card-image" src="image_6.jpeg" alt="Kopi Kelas Pagi">
+                    <img class="card-image" src="image_6.jpeg" alt="Kopi Kelas Pagi" onerror="this.src='https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=600&auto=format&fit=crop'">
                 </div>
                 <div class="card-content">
                     <div>
@@ -251,13 +295,20 @@
                         <div class="coffee-original">Es Kopi Susu Mantap</div>
                         <p class="coffee-desc">Racikan es kopi susu klasik yang creamy dan pas di lidah. Sangat cocok sebagai amunisi andalan penahan kantuk sebelum masuk kelas jam pertama.</p>
                     </div>
-                    <div class="price">Rp 12.000</div>
+                    <div class="card-footer">
+                        <div class="price">Rp 12.000</div>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="changeQty('pagi', -1)">-</button>
+                            <span class="qty-number" id="qty-pagi">0</span>
+                            <button class="btn-qty" onclick="changeQty('pagi', 1)">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-image-container">
-                    <img class="card-image" src="image_6.jpeg" alt="Kopi Kelas Siang">
+                    <img class="card-image" src="image_6.jpeg" alt="Kopi Kelas Siang" onerror="this.src='https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=600&auto=format&fit=crop'">
                 </div>
                 <div class="card-content">
                     <div>
@@ -266,13 +317,20 @@
                         <div class="coffee-original">Es Kopi Susu Manis Gula Aren</div>
                         <p class="coffee-desc">Sentuhan manis alami gula aren dipadu espresso berkualitas tinggi. Pilihan tepat untuk mengembalikan fokus yang hilang saat siang bolong.</p>
                     </div>
-                    <div class="price">Rp 12.000</div>
+                    <div class="card-footer">
+                        <div class="price">Rp 12.000</div>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="changeQty('siang', -1)">-</button>
+                            <span class="qty-number" id="qty-siang">0</span>
+                            <button class="btn-qty" onclick="changeQty('siang', 1)">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-image-container">
-                    <img class="card-image" src="image_6.jpeg" alt="Kopi Nugas Malam">
+                    <img class="card-image" src="image_6.jpeg" alt="Kopi Nugas Malam" onerror="this.src='https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=600&auto=format&fit=crop'">
                 </div>
                 <div class="card-content">
                     <div>
@@ -281,28 +339,30 @@
                         <div class="coffee-original">Es Kopi Susu Creamy Mocca</div>
                         <p class="coffee-desc">Rasa kopi susu dengan paduan cokelat mocca yang tebal dan tekstur lembut. Menemanimu begadang menyelesaikan tumpukan tugas perkuliahan.</p>
                     </div>
-                    <div class="price">Rp 12.000</div>
+                    <div class="card-footer">
+                        <div class="price">Rp 12.000</div>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="changeQty('malam', -1)">-</button>
+                            <span class="qty-number" id="qty-malam">0</span>
+                            <button class="btn-qty" onclick="changeQty('malam', 1)">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
+    </div>
 
-        <div class="payment-section">
-            <h3>Sistem Pemesanan & Pembayaran</h3>
-            <p>Silakan pastikan status ketersediaan stok produk pada badge menu di atas sebelum memesan. Transaksi pembayaran dapat langsung dikirimkan melalui transfer saldo GoPay:</p>
-            
-            <div class="gopay-box">
-                <span style="font-size: 0.9rem; color: #555; display: block; margin-bottom: 6px; font-weight: bold;">Nomor Resmi GoPay KopiinAja:</span>
-                <div class="gopay-number">0812 9254 1637</div>
+    <div class="cart-bar" id="cartBar">
+        <div class="cart-container">
+            <div class="cart-info">
+                <span class="cart-count" id="cartCount">Total item: 0 botol</span>
+                <div class="cart-total" id="cartTotal">Rp 0</div>
+                <div class="gopay-alert">Bayar GoPay: 0812 9254 1637</div>
             </div>
-
-            <p class="payment-instruction">
-                Setelah proses transfer berhasil diselesaikan, harap simpan screenshot bukti transaksi dan klik tombol tautan di bawah ini untuk mengirimkannya langsung via chat WhatsApp agar pesanan botolmu segera diproses.
-            </p>
-
-            <a href="https://wa.me/6281292541637?text=Halo%20Admin%20KopiinAja%2C%20saya%20ingin%20mengirimkan%20bukti%20pembayaran%20untuk%20pesanan%20kopi%20botol%20saya." class="btn-wa" target="_blank">
-                📱 Kirim Bukti Transfer ke WA
-            </a>
+            <button class="btn-checkout" onclick="sendWhatsApp()">
+                📱 Pesan & Kirim Bukti via WA
+            </button>
         </div>
     </div>
 
@@ -310,5 +370,63 @@
         <p>&copy; 2026 KopiinAja. All rights reserved.</p>
     </footer>
 
+    <script>
+        const menu = {
+            pagi: { name: "Kopi Kelas Pagi", price: 12000, qty: 0 },
+            siang: { name: "Kopi Kelas Siang", price: 12000, qty: 0 },
+            malam: { name: "Kopi Nugas Malam", price: 12000, qty: 0 }
+        };
+
+        function changeQty(itemKey, val) {
+            let currentQty = menu[itemKey].qty + val;
+            if (currentQty < 0) currentQty = 0;
+            
+            menu[itemKey].qty = currentQty;
+            document.getElementById(`qty-${itemKey}`).innerText = currentQty;
+            
+            updateCart();
+        }
+
+        function updateCart() {
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            for (let key in menu) {
+                totalItems += menu[key].qty;
+                totalPrice += menu[key].qty * menu[key].price;
+            }
+
+            const cartBar = document.getElementById("cartBar");
+            if (totalItems > 0) {
+                cartBar.style.display = "block";
+                document.getElementById("cartCount").innerText = `Total item: ${totalItems} botol`;
+                document.getElementById("cartTotal").innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+            } else {
+                cartBar.style.display = "none";
+            }
+        }
+
+        function sendWhatsApp() {
+            let textOrder = "Halo Admin KopiinAja, saya mau pesan kopi botol:%0A";
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            for (let key in menu) {
+                if (menu[key].qty > 0) {
+                    textOrder += `- ${menu[key].name} (${menu[key].qty} botol) = Rp ${(menu[key].qty * menu[key].price).toLocaleString('id-ID')}%0A`;
+                    totalItems += menu[key].qty;
+                    totalPrice += menu[key].qty * menu[key].price;
+                }
+            }
+
+            textOrder += `%0A*Total Bayar:* Rp ${totalPrice.toLocaleString('id-ID')}`;
+            textOrder += `%0A*Metode Pembayaran:* Transfer GoPay (081292541637)`;
+            textOrder += `%0A%0ABerikut saya lampirkan bukti transfernya ya min!`;
+
+            // Redirect otomatis ke nomor WA
+            const waNumber = "6281292541637";
+            window.open(`https://wa.me/${waNumber}?text=${textOrder}`, '_blank');
+        }
+    </script>
 </body>
 </html>
